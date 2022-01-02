@@ -13,7 +13,7 @@ class DeliveryAuth {
     const { authorization } = request.headers;
 
     if (!authorization) {
-      throw new Error("token is missing");
+      return response.status(401).json({ message: "Token is missing" });
     }
 
     const [, token] = authorization.split(" ");
@@ -26,7 +26,7 @@ class DeliveryAuth {
       });
 
       if (!deliveryCheck) {
-        throw new Error("invalid Token");
+        return response.status(401).json({ message: "Invalid Token" });
       }
 
       request.client = {
@@ -35,7 +35,7 @@ class DeliveryAuth {
 
       return next();
     } catch {
-      throw new Error("invalid Token");
+      return response.status(401).json({ message: "Invalid Token" });
     }
   }
 }
