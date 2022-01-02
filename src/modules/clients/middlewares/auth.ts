@@ -13,7 +13,7 @@ class ClientAuth {
     const { authorization } = request.headers;
 
     if (!authorization) {
-      throw new Error("token is missing");
+      return response.status(401).json({ message: "Token is missing" });
     }
 
     const [, token] = authorization.split(" ");
@@ -24,7 +24,7 @@ class ClientAuth {
       const userCheck = await prisma.clients.findFirst({ where: { id: sub } });
 
       if (!userCheck) {
-        throw new Error("invalid Token");
+        return response.status(401).json({ message: "Invalid Token" });
       }
 
       request.client = {
@@ -33,7 +33,7 @@ class ClientAuth {
 
       return next();
     } catch {
-      throw new Error("invalid Token");
+      return response.status(401).json({ message: "Invalid Token" });
     }
   }
 }
