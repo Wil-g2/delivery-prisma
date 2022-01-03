@@ -29,9 +29,7 @@ class DeliveryAuth {
         return response.status(401).json({ message: "Invalid Token" });
       }
 
-      request.client = {
-        id: sub,
-      };
+      request.id_deliveryman = sub;
 
       return next();
     } catch {

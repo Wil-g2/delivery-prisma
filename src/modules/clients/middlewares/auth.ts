@@ -27,9 +27,7 @@ class ClientAuth {
         return response.status(401).json({ message: "Invalid Token" });
       }
 
-      request.client = {
-        id: sub,
-      };
+      request.id_client = sub;
 
       return next();
     } catch {
